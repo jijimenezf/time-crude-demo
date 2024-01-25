@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/table";
 import { db } from "@/lib/db";
 import WorkSessionFormRow from "@/components/WorkSessionFormRow";
+import WorkSessionRow from "@/components/WorkSessionRow";
 
 type Props = {
   params: {
@@ -47,6 +48,9 @@ export default async function AccountDetailPage({ params }: Props) {
                 </TableCell>
                 <TableCell>{session.description}</TableCell>
                 <TableCell>{session.hours}</TableCell>
+                <TableCell>
+                  <WorkSessionRow session={session} />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

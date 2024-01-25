@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { createWorkSession, updateWorkSession } from "@/lib/actions";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { DateTime } from "luxon";
 
 type Props = {
   account: {
@@ -17,6 +18,11 @@ type Props = {
   };
   onCancelClick?: () => void;
 };
+
+const formatDisplayDate = (currentDate: string | undefined) => {
+  const dt = currentDate ? DateTime.fromFormat(currentDate, 'yyyy-MM-dd') : DateTime.utc();
+  return dt.toISO().substring(0, 10);
+}
 
 export default function WorkSessionFormRow({
   account,
@@ -45,7 +51,7 @@ export default function WorkSessionFormRow({
             type="date"
             name="startsOn"
             defaultValue={
-              session?.startsOn?.toISOString().substring(0, 10) || undefined
+              formatDisplayDate(session?.startsOn?.toISOString().substring(0, 10))
             }
           />
         </div>

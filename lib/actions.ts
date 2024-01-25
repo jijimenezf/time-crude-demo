@@ -37,18 +37,19 @@ const CreateWorkSessionSchema = z.object({
 });
 
 export const createWorkSession = async (rawData: FormData) => {
-    const data = CreateWorkSessionSchema.parse({
+    const result= CreateWorkSessionSchema.safeParse({
         accountId: rawData.get("accountId"),
         startsOn: rawData.get("startsOn"),
         description: rawData.get("description"),
         hours: rawData.get("hours"),
     });
-
-    const workSession = await db.workSession.create({
-        data,
-    });
-
-    revalidatePath(`/accounts/${workSession.accountId}`);
+    if (result.success) {
+        const workSession = await db.workSession.create({
+            data: result.data
+        });
+    
+        revalidatePath(`/accounts/${workSession.accountId}`);
+    }
 };
 
 const UpdateWorkSessionSchema = CreateWorkSessionSchema.extend({
