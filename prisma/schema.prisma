@@ -11,10 +11,10 @@ datasource db {
 }
 
 model Account {
-  id String @id @default(cuid())
+  id        String   @id @default(cuid()) @db.VarChar(30)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name  String @db.Char(40)
+  name      String   @db.VarChar(40)
   workSessions  WorkSession[]
 
   @@map("accounts")
@@ -22,11 +22,11 @@ model Account {
 }
 
 model WorkSession {
-  id  String @id @default(cuid()) @db.Char(30)
-  accountId String @db.Char(30)
+  id          String    @id @default(cuid()) @db.VarChar(30)
+  accountId   String    @db.VarChar(30)
   account Account @relation(fields: [accountId], references: [id])
   startsOn  DateTime? @db.Date
-  description String? @db.Char(120)
+  description String?   @db.VarChar(120)
   hours Float?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
